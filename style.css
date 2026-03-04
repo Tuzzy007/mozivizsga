@@ -1,0 +1,668 @@
+/* ===== ÁLTALÁNOS STÍLUSOK ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-red: #FF6B6B;
+    --dark-red: #EA3232;
+    --darker-red: #D23A3A;
+    --deep-red: #6C0808;
+    --very-dark-red: #380A0A;
+    --light-red: #F57272;
+    --soft-red: #D49E9E;
+    --white: #ffffff;
+    --black: #000000;
+    --gradient-primary: linear-gradient(135deg, var(--primary-red), var(--darker-red));
+    --gradient-header: linear-gradient(135deg, var(--very-dark-red), var(--deep-red));
+    --shadow-sm: 0 2px 8px rgba(108, 8, 8, 0.2);
+    --shadow-md: 0 4px 15px rgba(108, 8, 8, 0.4);
+    --shadow-lg: 0 8px 25px rgba(108, 8, 8, 0.5);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--black);
+    background: linear-gradient(135deg, #1a0a0a 0%, #2d1a1a 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+/* ===== FEJLÉC STÍLUSOK ===== */
+header {
+    background: var(--gradient-header);
+    color: var(--white);
+    padding: 0.8rem 0;
+    box-shadow: var(--shadow-md);
+    top: 0;
+    z-index: 1000;
+    border-bottom: 2px solid var(--dark-red);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 0 0 auto;
+}
+
+.logo {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-red), var(--light-red));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.logo i {
+    color: var(--primary-red);
+    -webkit-text-fill-color: var(--primary-red);
+    font-size: 1.8rem;
+}
+
+/* Mobil menü gomb */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    z-index: 1001;
+    position: relative;
+}
+
+.mobile-menu-toggle:hover {
+    color: var(--primary-red);
+    transform: scale(1.1);
+}
+
+/* Navigáció */
+nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+nav a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    background: rgba(56, 10, 10, 0.5);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 107, 107, 0.2);
+    display: inline-block;
+    white-space: nowrap;
+}
+
+nav a:hover,
+nav a.active {
+    background: var(--gradient-primary);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+    border-color: transparent;
+}
+
+/* Header jobb oldal */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 0 0 auto;
+}
+
+/* Dokumentáció gomb */
+.doc-btn {
+    color: var(--white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    backdrop-filter: blur(5px);
+    white-space: nowrap;
+}
+
+.doc-btn:hover {
+    background: rgba(255, 107, 107, 0.2);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--primary-red);
+}
+
+.doc-btn i {
+    color: var(--primary-red);
+}
+
+.doc-btn span {
+    font-size: 0.95rem;
+}
+
+/* Felhasználói menü */
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-dropdown {
+    position: relative;
+}
+
+.user-btn {
+    background: rgba(56, 10, 10, 0.5);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    color: var(--white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.user-btn:hover {
+    background: rgba(255, 107, 107, 0.2);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--primary-red);
+}
+
+.user-btn i:first-child {
+    font-size: 1.2rem;
+    color: var(--primary-red);
+}
+
+.user-name {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-btn i:last-child {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.user-dropdown:hover .user-btn i:last-child {
+    transform: rotate(180deg);
+}
+
+/* Dropdown menü */
+.dropdown-menu {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    min-width: 220px;
+    display: none;
+    z-index: 1000;
+    overflow: hidden;
+    border: 1px solid rgba(255, 107, 107, 0.2);
+}
+
+.dropdown-menu.show,
+.user-dropdown:hover .dropdown-menu {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--very-dark-red);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(255, 107, 107, 0.1);
+}
+
+.dropdown-menu a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(210, 58, 58, 0.1));
+    padding-left: 1.5rem;
+    color: var(--dark-red);
+}
+
+.dropdown-menu a i {
+    width: 20px;
+    color: var(--primary-red);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-red), transparent);
+    margin: 0.5rem 0;
+}
+
+/* Gombok */
+.btn {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--white);
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    border: 1px solid var(--dark-red);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--dark-red), #872F2F);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary-red);
+    color: var(--white);
+}
+
+.btn-outline:hover {
+    background: var(--primary-red);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-sm {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.9rem;
+}
+
+/* ===== FŐ TARTALOM ===== */
+.main-content {
+    padding: 3rem 0;
+    background: rgba(0, 0, 0, 0);
+    border-radius: 10px;
+    margin-top: 2rem;
+    min-height: 60vh;
+}
+
+.section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    color: var(--white);
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-red), var(--darker-red));
+    border-radius: 2px;
+}
+
+/* ===== LÁBLÉC STÍLUSOK ===== */
+footer {
+    background: linear-gradient(135deg, var(--very-dark-red), #280000);
+    color: var(--white);
+    padding: 4rem 0 2rem;
+    margin-top: 4rem;
+    border-top: 3px solid var(--dark-red);
+    position: relative;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--primary-red), transparent);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-section h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-red);
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.footer-section h3:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-red), transparent);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-section a {
+    color: var(--light-red);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 0.2rem 0;
+    display: inline-block;
+    position: relative;
+}
+
+.footer-section a:hover {
+    color: var(--white);
+    transform: translateX(8px);
+    text-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 107, 107, 0.2);
+    color: var(--soft-red);
+    font-size: 0.95rem;
+}
+
+/* ===== KÜLÖNLEGES ELEMEK ===== */
+::selection {
+    background: rgba(255, 107, 107, 0.3);
+    color: var(--black);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+    .header-content {
+        gap: 1rem;
+    }
+    
+    .logo {
+        font-size: 1.8rem;
+    }
+    
+    nav a {
+        padding: 0.5rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .doc-btn span {
+        display: none;
+    }
+    
+    .doc-btn i {
+        font-size: 1.2rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
+/* Mobil (768px alatt) */
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .header-content {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        position: relative;
+    }
+    
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    nav {
+        display: none;
+        width: 100%;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: linear-gradient(135deg, #380A0A, #6C0808);
+        padding: 1rem;
+        border-bottom: 2px solid #EA3232;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+    }
+    
+    nav.active {
+        display: block;
+        animation: slideDown 0.3s ease;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin: 0;
+        padding: 0;
+    }
+    
+    nav a {
+        width: 100%;
+        text-align: center;
+        padding: 0.8rem;
+        white-space: normal;
+        display: block;
+    }
+    
+    .header-right {
+        width: auto;
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .user-menu {
+        width: auto;
+    }
+    
+    .user-btn {
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .user-name {
+        display: none;  /* Mobilon elrejtjük a nevet, csak ikon marad */
+    }
+    
+    .doc-btn span {
+        display: none;  /* Mobilon a dokumentáció szöveg elrejtése */
+    }
+    
+    .doc-btn i {
+        font-size: 1.2rem;
+    }
+    
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: auto;
+        min-width: 200px;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .main-content {
+        padding: 2rem 1rem;
+        margin-top: 1rem;
+    }
+}
+
+/* Kis mobil (480px alatt) */
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.3rem;
+    }
+    
+    .logo i {
+        font-size: 1.2rem;
+    }
+    
+    .header-right {
+        gap: 0.3rem;
+    }
+    
+    .btn {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.85rem;
+    }
+    
+    .user-btn {
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .mobile-menu-toggle {
+        font-size: 1.5rem;
+        padding: 0.3rem 0.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .section-title:after {
+        width: 50px;
+    }
+}
+
+/* Táblagép álló mód */
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {
+    .header-content {
+        flex-wrap: wrap;
+    }
+    
+    nav {
+        order: 3;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+    
+    nav ul {
+        justify-content: center;
+    }
+}
+
+/* Reszponzív képek és média */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Reszponzív táblázatok */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1rem 0;
+}
+
+/* Reszponzív űrlapok */
+input, select, textarea {
+    max-width: 100%;
+}
