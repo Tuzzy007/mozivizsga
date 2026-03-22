@@ -666,3 +666,134 @@ img {
 input, select, textarea {
     max-width: 100%;
 }
+
+.status-warning {
+    color: #e67e22 !important;
+    background: rgba(230, 126, 34, 0.1);
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+
+/* ===== NYOMTATHATÓ STÍLUSOK ===== */
+@media print {
+    /* Minden nem szükséges elem elrejtése */
+    header, footer, .btn, .btn-primary, .btn-secondary, 
+    .btn-print, .mobile-menu-toggle, nav, .user-menu, 
+    .doc-btn, .pagination, .pagination-container, 
+    .filter-form, .filters, .filter-header, .btn-clear-all,
+    .no-print {
+        display: none !important;
+    }
+    
+    /* Test háttér és színek fekete-fehérre állítása */
+    body {
+        background: white !important;
+        color: black !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Jegy kártyák nyomtatási stílusa */
+    .ticket-card, .success-container {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        background: white !important;
+        margin-bottom: 20px !important;
+        padding: 15px !important;
+    }
+    
+    .ticket-header, .ticket-details {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .ticket-poster {
+        border: 1px solid #ccc !important;
+    }
+    
+    .detail-row {
+        border-bottom: 1px solid #eee !important;
+    }
+    
+    .detail-label, .detail-value {
+        color: black !important;
+    }
+    
+    .price-value {
+        color: black !important;
+        font-weight: bold !important;
+    }
+    
+    .status-active, .status-used, .status-cancelled, .status-expired {
+        background: none !important;
+        color: black !important;
+        border: 1px solid #ccc !important;
+    }
+    
+    .ticket-id-badge {
+        background: #f0f0f0 !important;
+        color: black !important;
+        border: 1px solid #ccc !important;
+    }
+    
+    /* Sikeres fizetés utáni oldal nyomtatása */
+    .success-container {
+        margin: 0 !important;
+        padding: 20px !important;
+        box-shadow: none !important;
+    }
+    
+    .success-icon i {
+        color: black !important;
+    }
+    
+    .ticket-summary {
+        background: #f9f9f9 !important;
+        border: 1px solid #ccc !important;
+    }
+    
+    /* Nyomtatási elrendezés - egy jegy egy oldalon */
+    .tickets-grid {
+        display: block !important;
+    }
+    
+    .ticket-card {
+        margin-bottom: 30px !important;
+        page-break-after: avoid;
+    }
+    
+    /* QR kód vagy vonalkód helye */
+    .print-qr {
+        display: block !important;
+        text-align: center;
+        margin-top: 15px;
+        font-family: monospace;
+        font-size: 12px;
+    }
+    
+    /* Jegy szegélye és dizájn */
+    .ticket-card {
+        border: 2px solid #000 !important;
+        position: relative;
+    }
+    
+    .ticket-card:after {
+        content: "JEGY";
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-size: 10px;
+        color: #ccc;
+        font-weight: normal;
+    }
+}

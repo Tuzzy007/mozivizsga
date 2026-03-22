@@ -30,6 +30,32 @@ $additional_css = '
         margin-bottom: 2rem;
         border-radius: 10px;
         text-align: center;
+        position: relative;
+    }
+    
+    /* Nyomtatás gomb */
+    .print-all-btn {
+        position: absolute;
+        top: 50%;
+        right: 2rem;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid #FF6B6B;
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    
+    .print-all-btn:hover {
+        background: #FF6B6B;
+        transform: translateY(-50%) scale(1.05);
     }
     
     .tickets-grid {
@@ -46,6 +72,7 @@ $additional_css = '
         border: 1px solid #F57272;
         box-shadow: 0 8px 20px rgba(135, 47, 47, 0.15);
         transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        position: relative;
     }
     
     .ticket-card:hover {
@@ -178,6 +205,37 @@ $additional_css = '
         display: inline-block;
     }
     
+    /* Nyomtatás gomb a kártyán */
+    .ticket-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid #D49E9E;
+    }
+    
+    .btn-print-ticket {
+        background: linear-gradient(135deg, #FF6B6B, #D23A3A);
+        color: white;
+        border: none;
+        padding: 0.6rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        flex: 1;
+        justify-content: center;
+        text-decoration: none;
+    }
+    
+    .btn-print-ticket:hover {
+        background: linear-gradient(135deg, #D23A3A, #872F2F);
+        transform: translateY(-2px);
+    }
+    
     .no-tickets {
         background: linear-gradient(135deg, #F9F9F9, #F5F5F5);
         border-radius: 10px;
@@ -200,6 +258,22 @@ $additional_css = '
         font-family: "Poppins", sans-serif;
     }
     
+    /* Nyomtatási QR kód stílus */
+    .ticket-qr {
+        text-align: center;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        background: #f5f5f5;
+        border-radius: 6px;
+        font-family: monospace;
+        font-size: 0.8rem;
+    }
+    
+    .ticket-qr i {
+        font-size: 1.2rem;
+        margin-right: 0.5rem;
+    }
+    
     /* Reszponzív design */
     @media (max-width: 768px) {
         .tickets-grid {
@@ -215,6 +289,20 @@ $additional_css = '
         
         .ticket-poster-container {
             align-self: center;
+        }
+        
+        .print-all-btn {
+            position: static;
+            transform: none;
+            margin-top: 1rem;
+            display: inline-flex;
+        }
+        
+        .page-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
         }
     }
     
@@ -238,6 +326,7 @@ $additional_css = '
     }
 ';
 ?>
+
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -279,15 +368,17 @@ $additional_css = '
                         
                         // Ha aktív a jegy, de a vetítés már elkezdődött, frissítsük a státuszt
                         if($ticket['status'] == 'active' && $screening_timestamp < $current_timestamp) {
-                            // Itt frissíthetnénk az adatbázisban is, de most csak a megjelenítéshez állítjuk
                             $ticket['status'] = 'expired';
                         }
+                        
+                        // Egyedi jegy azonosító a nyomtatáshoz
+                        $ticket_qr_code = 'MOZI' . str_pad($ticket['id'], 8, '0', STR_PAD_LEFT);
                     ?>
-                    <div class="ticket-card">
+                    <div class="ticket-card" id="ticket-<?php echo $ticket['id']; ?>">
                         <div class="ticket-header">
                             <div class="ticket-poster-container">
                                 <span class="ticket-id-badge">
-                                    <i class="fas fa-ticket-alt"></i> #MOZI<?php echo str_pad($ticket['id'], 6, '0', STR_PAD_LEFT); ?>
+                                    <i class="fas fa-ticket-alt"></i> #<?php echo $ticket_qr_code; ?>
                                 </span>
                                 <img src="<?php echo htmlspecialchars($ticket['poster_url']); ?>" 
                                      alt="<?php echo htmlspecialchars($ticket['movie_title']); ?>" 
@@ -350,11 +441,25 @@ $additional_css = '
                                         'active' => 'Aktív',
                                         'used' => 'Felhasznált',
                                         'cancelled' => 'Törölt',
-                                        'expired' => 'Lejárt'
+                                        'expired' => 'Lejárt',
+                                        'cash_pending' => 'Fizetésre vár (helyszínen)'
                                     ];
                                     echo $status_text[$ticket['status']] ?? $ticket['status'];
                                     ?>
                                 </span>
+                            </div>
+                            
+                            <!-- QR kód / Vonalkód szerű azonosító -->
+                            <div class="ticket-qr no-print">
+                                <i class="fas fa-qrcode"></i> 
+                                Jegyazonosító: <strong><?php echo $ticket_qr_code; ?></strong>
+                            </div>
+                            
+                            <!-- Nyomtatás gomb -->
+                            <div class="ticket-actions no-print">
+                                <button onclick="printTicket(<?php echo $ticket['id']; ?>)" class="btn-print-ticket">
+                                    <i class="fas fa-print"></i> Jegy nyomtatása
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -372,5 +477,145 @@ $additional_css = '
     </div>
     
     <?php include 'footer.php'; ?>
+    
+    <script>
+        // Egyedi jegy nyomtatása
+        function printTicket(ticketId) {
+            const ticketElement = document.getElementById('ticket-' + ticketId);
+            if (!ticketElement) return;
+            
+            // Készítsünk egy másolatot a jegyből a nyomtatáshoz
+            const printWindow = window.open('', '_blank', 'width=800,height=600');
+            const ticketClone = ticketElement.cloneNode(true);
+            
+            // Eltávolítjuk a nyomtatás gombot a másolatból
+            const buttonsToRemove = ticketClone.querySelectorAll('.ticket-actions, .no-print');
+            buttonsToRemove.forEach(btn => btn.remove());
+            
+            // Nyomtatási stílusok
+            const printStyles = `
+                <style>
+                    * {
+                        margin: 0;
+                        padding: 0;
+                        box-sizing: border-box;
+                    }
+                    body {
+                        font-family: Arial, sans-serif;
+                        padding: 20px;
+                        background: white;
+                    }
+                    .ticket-card {
+                        max-width: 500px;
+                        margin: 0 auto;
+                        border: 2px solid #000;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        page-break-after: avoid;
+                    }
+                    .ticket-header {
+                        display: flex;
+                        gap: 1rem;
+                        padding: 1rem;
+                        background: #f0f0f0;
+                        border-bottom: 2px solid #000;
+                    }
+                    .ticket-poster {
+                        width: 80px;
+                        height: 120px;
+                        object-fit: cover;
+                        border: 1px solid #ccc;
+                    }
+                    .ticket-info {
+                        flex: 1;
+                    }
+                    .ticket-title {
+                        font-size: 1.2rem;
+                        font-weight: bold;
+                        margin-bottom: 0.5rem;
+                    }
+                    .ticket-id-badge {
+                        display: inline-block;
+                        background: #333;
+                        color: white;
+                        padding: 0.2rem 0.5rem;
+                        border-radius: 4px;
+                        font-size: 0.8rem;
+                        margin-bottom: 0.5rem;
+                    }
+                    .ticket-details {
+                        padding: 1rem;
+                    }
+                    .detail-row {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 0.5rem;
+                        padding-bottom: 0.5rem;
+                        border-bottom: 1px solid #eee;
+                    }
+                    .detail-label {
+                        font-weight: bold;
+                    }
+                    .detail-value {
+                        text-align: right;
+                    }
+                    .price-value {
+                        font-weight: bold;
+                        color: #d9534f;
+                    }
+                    .ticket-qr {
+                        margin-top: 1rem;
+                        padding: 0.5rem;
+                        background: #f9f9f9;
+                        text-align: center;
+                        font-family: monospace;
+                        border-top: 1px solid #ddd;
+                    }
+                    .print-footer {
+                        margin-top: 20px;
+                        text-align: center;
+                        font-size: 12px;
+                        color: #666;
+                    }
+                </style>
+            `;
+            
+            // Nyomtatási tartalom
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Jegy nyomtatás - <?php echo APP_NAME; ?></title>
+                    ${printStyles}
+                </head>
+                <body>
+                    ${ticketClone.outerHTML}
+                    <div class="print-footer">
+                        <?php echo APP_NAME; ?> - Érvényes belépésre jogosít<br>
+                        Kérjük, őrizze meg a jegyet a vetítés végéig!
+                    </div>
+                    <script>
+                        window.onload = function() {
+                            window.print();
+                            setTimeout(function() { window.close(); }, 500);
+                        };
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+        
+        // Nyomtatás előtti ellenőrzés
+        window.onbeforeprint = function() {
+            // Opcionális: nyomtatás előtti előkészületek
+            console.log('Nyomtatás előkészítése...');
+        };
+        
+        window.onafterprint = function() {
+            // Nyomtatás utáni visszaállítás
+            console.log('Nyomtatás befejeződött');
+        };
+    </script>
 </body>
 </html>

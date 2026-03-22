@@ -3,9 +3,9 @@ session_start();
 
 // Adatbázis kapcsolat
 $host = 'localhost';
-$dbname = 'mozivizsga26';
-$username = 'mozivizsga26';
-$password = 'Mozivizsga2026!';
+$dbname = 'mozvizsga26';
+$username = 'root';
+$password = '';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
@@ -164,8 +164,8 @@ function generateWeeklyScreenings($pdo) {
     }
 }
 
-define('STRIPE_PUBLISHABLE_KEY', 'STRIPE_PUBLISHABLE_KEY'); 
-define('STRIPE_SECRET_KEY', 'STRIPE_SECRET_KEY');  
+define('STRIPE_PUBLISHABLE_KEY', ''); 
+define('STRIPE_SECRET_KEY', '');  
 define('STRIPE_WEBHOOK_SECRET', 'whsec_...'); 
 
 // Fizetési státuszok

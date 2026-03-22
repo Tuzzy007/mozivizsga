@@ -61,7 +61,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </nav>
                 
                 <div class="header-right">
-                    <a href="https://drive.google.com/drive/folders/1OqzHKzcg6bzjmK5NPPwGTGHwkmdmvD3C?usp=sharing" target="_blank" class="doc-btn" aria-label="Dokumentációk">
+                    <a href="https://github.com/Tuzzy007/mozivizsga" target="_blank" class="doc-btn" aria-label="Dokumentációk">
                         <i class="fas fa-file-alt"></i>
                         <span>Dokumentációk</span>
                     </a>

@@ -109,51 +109,88 @@ $occupied_seats = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
 // Oldal specifikus CSS - a színpalettából
 $additional_css = '
+    /* ===== ALAPÉRTELMEZETT BEÁLLÍTÁSOK ===== */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    /* ===== GLOBÁLIS STÍLUSOK ===== */
+    body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f5f5;
+        color: #380A0A;
+        line-height: 1.6;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    /* ===== HEADER ===== */
     .page-header {
         background: linear-gradient(135deg, #380A0A, #6C0808);
         padding: 2rem 0;
-        margin-bottom: 2rem;
+        margin: 2rem 0;
         border-radius: 10px;
         text-align: center;
+        width: 100%;
     }
     
+    .section-title {
+        color: white;
+        font-size: clamp(1.5rem, 5vw, 2.5rem);
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0 20px;
+    }
+    
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+        padding: 2rem 0;
+        width: 100%;
+    }
+    
+    /* ===== BOOKING CONTAINER (GRID) ===== */
     .booking-container {
         display: grid;
-        grid-template-columns: 1fr 2fr;
-        gap: 3rem;
+        grid-template-columns: minmax(300px, 1fr) minmax(500px, 2fr);
+        gap: 2rem;
+        width: 100%;
     }
     
-    @media (max-width: 992px) {
-        .booking-container {
-            grid-template-columns: 1fr;
-        }
-    }
-    
+    /* ===== MOVIE INFO CARD ===== */
     .movie-info-card {
         background: linear-gradient(135deg, #F9F9F9, #F5F5F5);
         border-radius: 10px;
-        padding: 2rem;
+        padding: clamp(1rem, 3vw, 2rem);
         border: 1px solid #F57272;
         box-shadow: 0 8px 20px rgba(135, 47, 47, 0.15);
         height: fit-content;
+        width: 100%;
     }
     
     .movie-poster {
         width: 100%;
-        height: 300px;
+        height: auto;
+        max-height: 300px;
         object-fit: cover;
         border-radius: 8px;
         border: 2px solid #FF6B6B;
         margin-bottom: 1.5rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
     
     .movie-title {
         font-family: "Poppins", sans-serif;
-        font-size: 1.5rem;
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
         color: #380A0A;
         margin-bottom: 1rem;
         font-weight: 600;
+        word-wrap: break-word;
     }
     
     .detail-item {
@@ -162,21 +199,32 @@ $additional_css = '
         margin-bottom: 0.8rem;
         padding-bottom: 0.8rem;
         border-bottom: 1px solid #D49E9E;
+        flex-wrap: wrap;
+        gap: 0.5rem;
     }
     
     .detail-label {
         color: #6C0808;
         font-weight: 500;
+        font-size: clamp(0.85rem, 2vw, 0.95rem);
     }
     
     .detail-value {
         color: #380A0A;
         font-weight: 600;
+        text-align: right;
+        word-break: break-word;
+        font-size: clamp(0.85rem, 2vw, 0.95rem);
+    }
+    
+    .detail-value i {
+        color: #FF6B6B;
+        margin-right: 5px;
     }
     
     .price-total {
         background: rgba(255, 107, 107, 0.1);
-        padding: 1.5rem;
+        padding: clamp(1rem, 3vw, 1.5rem);
         border-radius: 8px;
         text-align: center;
         margin-top: 1.5rem;
@@ -184,104 +232,27 @@ $additional_css = '
     }
     
     .total-price {
-        font-size: 1.8rem;
+        font-size: clamp(1.5rem, 5vw, 1.8rem);
         color: #872F2F;
         font-weight: bold;
         font-family: "Poppins", sans-serif;
     }
     
+    /* ===== BOOKING FORM CARD ===== */
     .booking-form-card {
         background: linear-gradient(135deg, #F9F9F9, #F5F5F5);
         border-radius: 10px;
-        padding: 2rem;
+        padding: clamp(1rem, 3vw, 2rem);
         border: 1px solid #F57272;
         box-shadow: 0 8px 20px rgba(135, 47, 47, 0.15);
+        width: 100%;
     }
     
-    .seating-plan {
-        background: white;
-        border-radius: 8px;
-        padding: 2rem;
-        margin-bottom: 2rem;
-        border: 1px solid #F57272;
-        box-shadow: 0 5px 15px rgba(135, 47, 47, 0.1);
-        overflow-x: auto;
-    }
-    
-    .screen {
-        background: linear-gradient(135deg, #380A0A, #6C0808);
-        color: white;
-        text-align: center;
-        padding: 1rem;
-        margin-bottom: 2rem;
-        border-radius: 4px;
-        font-weight: bold;
+    .booking-form-card h2 {
         font-family: "Poppins", sans-serif;
-        border: 2px solid #FF6B6B;
-    }
-    
-    .seats-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        align-items: center;
-        min-width: fit-content;
-    }
-    
-    .seat-row {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-    }
-    
-    .row-label {
-        width: 30px;
-        text-align: center;
-        font-weight: bold;
         color: #380A0A;
-        font-family: "Poppins", sans-serif;
-    }
-    
-    .seat {
-        width: 35px;
-        height: 35px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #D49E9E;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: bold;
-        font-size: 0.9rem;
-        color: #380A0A;
-        position: relative;
-    }
-    
-    .seat:hover:not(.occupied) {
-        background: #F57272;
-        transform: scale(1.1);
-    }
-    
-    .seat.selected {
-        background: linear-gradient(135deg, #FF6B6B, #D23A3A);
-        color: white;
-        box-shadow: 0 3px 8px rgba(210, 58, 58, 0.3);
-    }
-    
-    .seat.occupied {
-        background: #872F2F;
-        color: white;
-        cursor: not-allowed;
-        opacity: 0.7;
-    }
-    
-    .seat-legend {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        margin-top: 2rem;
-        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+        font-size: clamp(1.2rem, 4vw, 1.4rem);
     }
     
     .legend-item {
@@ -294,6 +265,7 @@ $additional_css = '
         width: 20px;
         height: 20px;
         border-radius: 4px;
+        flex-shrink: 0;
     }
     
     .legend-color.available {
@@ -310,12 +282,13 @@ $additional_css = '
     
     .legend-label {
         color: #380A0A;
-        font-size: 0.9rem;
+        font-size: clamp(0.8rem, 2vw, 0.9rem);
     }
     
+    /* ===== SELECTED SEATS INFO ===== */
     .selected-seats-info {
         background: rgba(255, 107, 107, 0.1);
-        padding: 1.5rem;
+        padding: clamp(1rem, 3vw, 1.5rem);
         border-radius: 8px;
         margin: 1.5rem 0;
         border: 1px solid #F57272;
@@ -326,6 +299,7 @@ $additional_css = '
         flex-wrap: wrap;
         gap: 0.5rem;
         margin-top: 0.5rem;
+        max-width: 100%;
     }
     
     .selected-seat-badge {
@@ -333,7 +307,7 @@ $additional_css = '
         color: white;
         padding: 0.3rem 0.8rem;
         border-radius: 20px;
-        font-size: 0.9rem;
+        font-size: clamp(0.8rem, 2vw, 0.9rem);
         font-weight: 600;
         display: inline-flex;
         align-items: center;
@@ -342,6 +316,7 @@ $additional_css = '
     
     .selected-seat-badge i {
         cursor: pointer;
+        padding: 0.2rem;
     }
     
     .booking-summary {
@@ -355,16 +330,158 @@ $additional_css = '
     
     .summary-label {
         color: #6C0808;
-        font-size: 1.1rem;
+        font-size: clamp(1rem, 3vw, 1.1rem);
         font-weight: 600;
     }
     
     .summary-value {
         color: #380A0A;
-        font-size: 1.3rem;
+        font-size: clamp(1.1rem, 4vw, 1.3rem);
         font-weight: bold;
     }
     
+    /* ===== USER INFO DISPLAY ===== */
+    .user-info-display {
+        background: rgba(255, 107, 107, 0.1);
+        padding: clamp(1rem, 3vw, 1.5rem);
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        border: 1px solid #F57272;
+    }
+    
+    .user-info-display h3 {
+        color: #380A0A;
+        margin-bottom: 1rem;
+        font-size: clamp(1rem, 3vw, 1.1rem);
+    }
+    
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+        padding-bottom: 0.8rem;
+        border-bottom: 1px solid rgba(212, 158, 158, 0.3);
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    /* ===== PAYMENT SECTION ===== */
+    .payment-method-section {
+        background: rgba(255, 107, 107, 0.05);
+        padding: clamp(1rem, 3vw, 1.5rem);
+        border-radius: 8px;
+        margin: 1.5rem 0;
+        border: 1px solid #F57272;
+    }
+    
+    .payment-method-section h3 {
+        color: #380A0A;
+        margin-bottom: 1rem;
+        font-size: clamp(1rem, 3vw, 1.1rem);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .payment-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .payment-option {
+        background: white;
+        border: 1px solid #D49E9E;
+        border-radius: 6px;
+        padding: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .payment-option:hover {
+        border-color: #FF6B6B;
+        box-shadow: 0 2px 8px rgba(255, 107, 107, 0.2);
+    }
+    
+    .payment-option input[type="radio"] {
+        display: none;
+    }
+    
+    .payment-option label {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        cursor: pointer;
+        color: #380A0A;
+        font-size: clamp(0.85rem, 2vw, 0.95rem);
+        width: 100%;
+    }
+    
+    .payment-option label i {
+        color: #872F2F;
+        font-size: 1.2rem;
+    }
+    
+    .payment-option:has(input[type="radio"]:checked) {
+        border: 2px solid #FF6B6B;
+        background: rgba(255, 107, 107, 0.05);
+    }
+    
+    /* ===== PAYMENT DETAILS SECTIONS ===== */
+    .card-details,
+    .szep-details,
+    .transfer-info {
+        margin-top: 1.5rem;
+        padding: clamp(1rem, 3vw, 1.5rem);
+        background: white;
+        border-radius: 6px;
+        border: 1px solid #F57272;
+    }
+    
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .form-group {
+        flex: 1 1 200px;
+        min-width: 200px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #6C0808;
+        font-weight: 500;
+        font-size: clamp(0.85rem, 2vw, 0.9rem);
+    }
+    
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #D49E9E;
+        border-radius: 4px;
+        font-size: clamp(0.9rem, 2vw, 0.95rem);
+        transition: all 0.3s ease;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: #FF6B6B;
+        box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+    }
+    
+    .form-group small {
+        color: #6C0808;
+        font-size: 0.8rem;
+        margin-top: 0.3rem;
+        display: block;
+    }
+    
+    /* ===== MESSAGES ===== */
     .error {
         background: linear-gradient(135deg, #EA3232, #6C0808);
         color: white;
@@ -372,6 +489,7 @@ $additional_css = '
         border-radius: 6px;
         margin-bottom: 1.5rem;
         border: 1px solid #FF6B6B;
+        font-size: clamp(0.9rem, 2vw, 1rem);
     }
     
     .success {
@@ -381,36 +499,21 @@ $additional_css = '
         border-radius: 6px;
         margin-bottom: 1.5rem;
         border: 1px solid #D49E9E;
+        font-size: clamp(0.9rem, 2vw, 1rem);
     }
     
-    .user-info-display {
-        background: rgba(255, 107, 107, 0.1);
-        padding: 1.5rem;
-        border-radius: 8px;
-        margin-bottom: 1.5rem;
-        border: 1px solid #F57272;
-    }
-    
-    .info-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.8rem;
-        padding-bottom: 0.8rem;
-        border-bottom: 1px solid rgba(212, 158, 158, 0.3);
-    }
-    
-    .booking-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        margin-top: 2rem;
-    }
-    
-    .booking-actions .btn {
-        text-align: center;
+    .seat-limit-warning {
+        display: none;
+        background: #EA3232;
+        color: white;
         padding: 0.8rem;
-        font-size: 1rem;
-        font-family: "Poppins", sans-serif;
+        border-radius: 6px;
+        margin-bottom: 1rem;
+        border: 1px solid #FF6B6B;
+        text-align: center;
+        font-weight: 600;
+        font-size: clamp(0.9rem, 2vw, 1rem);
+        animation: fadeInOut 0.3s ease;
     }
     
     .max-seats-warning {
@@ -419,21 +522,22 @@ $additional_css = '
         padding: 0.5rem;
         border-radius: 4px;
         margin-bottom: 1rem;
-        font-size: 0.9rem;
+        font-size: clamp(0.85rem, 2vw, 0.9rem);
         text-align: center;
         border: 1px solid #FF6B6B;
     }
     
+    /* ===== BOOKING BLOCKED ===== */
     .booking-blocked {
         text-align: center;
-        padding: 3rem;
+        padding: clamp(2rem, 5vw, 3rem);
         background: rgba(255, 107, 107, 0.1);
         border-radius: 8px;
         border: 2px solid #EA3232;
     }
     
     .booking-blocked i {
-        font-size: 4rem;
+        font-size: clamp(3rem, 10vw, 4rem);
         color: #D23A3A;
         margin-bottom: 1.5rem;
     }
@@ -442,161 +546,388 @@ $additional_css = '
         color: #380A0A;
         margin-bottom: 1rem;
         font-family: "Poppins", sans-serif;
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
     }
     
-    @media (max-width: 768px) {
+    .booking-blocked p {
+        color: #6C0808;
+        margin-bottom: 2rem;
+        font-size: clamp(1rem, 3vw, 1.1rem);
+    }
+    
+    /* ===== BUTTONS ===== */
+    .booking-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .btn {
+        display: inline-block;
+        padding: 0.8rem 1.5rem;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        font-size: clamp(0.9rem, 2vw, 1rem);
+        text-align: center;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #FF6B6B, #D23A3A);
+        color: white;
+        border: 1px solid #872F2F;
+    }
+    
+    .btn-primary:hover:not(:disabled) {
+        background: linear-gradient(135deg, #D23A3A, #872F2F);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(210, 58, 58, 0.3);
+    }
+    
+    .btn-primary:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    
+    .btn-secondary {
+        background: transparent;
+        color: #6C0808;
+        border: 2px solid #F57272;
+    }
+    
+    .btn-secondary:hover {
+        background: #F57272;
+        color: white;
+    }
+    
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInOut {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* ===== TOUCH DEVICE OPTIMIZATIONS ===== */
+    @media (hover: none) and (pointer: coarse) {
         .seat {
-            width: 30px;
-            height: 30px;
-            font-size: 0.8rem;
+            min-width: 44px;
+            min-height: 44px;
         }
         
-        .seat-legend {
-            gap: 1rem;
+        .btn,
+        .payment-option label,
+        .selected-seat-badge i {
+            min-height: 44px;
+        }
+        
+        .seat:hover:not(.occupied) {
+            transform: none;
         }
     }
     
-    @media (max-width: 480px) {
+    /* ===== RESPONSIVE BREAKPOINTS ===== */
+    
+    /* Extra small devices (phones, 600px and down) */
+    @media only screen and (max-width: 600px) {
+        .container {
+            padding: 0 10px;
+        }
+        
         .booking-container {
+            grid-template-columns: 1fr;
             gap: 1.5rem;
+        }
+        
+        .page-header {
+            padding: 1.5rem 0;
+            margin: 1rem 0;
         }
         
         .movie-info-card,
         .booking-form-card {
-            padding: 1.5rem;
+            padding: 1rem;
+        }
+        
+        .movie-poster {
+            max-height: 200px;
+        }
+        
+        .seat-row {
+            gap: 0.2rem;
         }
         
         .seat {
-            width: 25px;
-            height: 25px;
+            width: 28px;
+            height: 28px;
             font-size: 0.7rem;
         }
-    }
-
-    .payment-method-section {
-        background: rgba(255, 107, 107, 0.05);
-        padding: 1.5rem;
-        border-radius: 8px;
-        margin: 1.5rem 0;
-        border: 1px solid #F57272;
-    }
-
-    .payment-options {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-top: 0.5rem;
-    }
-
-    .payment-option {
-        background: white;
-        border: 1px solid #D49E9E;
-        border-radius: 6px;
-        padding: 1rem;
-        transition: all 0.3s ease;
-    }
-
-    .payment-option:hover {
-        border-color: #FF6B6B;
-        box-shadow: 0 2px 8px rgba(255, 107, 107, 0.2);
-    }
-
-    .payment-option input[type="radio"] {
-        display: none;
-    }
-
-    .payment-option input[type="radio"]:checked + label {
-        color: #D23A3A;
-        font-weight: 600;
-    }
-
-    .payment-option input[type="radio"]:checked + label i {
-        color: #FF6B6B;
-    }
-
-    .payment-option label {
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-        cursor: pointer;
-        color: #380A0A;
-        font-size: 0.95rem;
-        width: 100%;
-    }
-
-    .payment-option label i {
-        color: #872F2F;
-        font-size: 1.2rem;
-    }
-
-    .card-details, .szep-details, .transfer-info {
-        margin-top: 1.5rem;
-        padding: 1.5rem;
-        background: white;
-        border-radius: 6px;
-        border: 1px solid #F57272;
-    }
-
-    .form-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-
-    .form-group {
-        flex: 1;
-        min-width: 200px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        color: #6C0808;
-        font-weight: 500;
-        font-size: 0.9rem;
-    }
-
-    .form-group input,
-    .form-group select {
-        width: 100%;
-        padding: 0.6rem;
-        border: 1px solid #D49E9E;
-        border-radius: 4px;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus {
-        outline: none;
-        border-color: #FF6B6B;
-        box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
-    }
-
-    .col-md-6 { flex: 0 0 calc(50% - 0.5rem); }
-    .col-md-2 { flex: 0 0 calc(16.666% - 0.5rem); }
-
-    @media (max-width: 768px) {
+        
+        
+        .seat-legend {
+            gap: 1rem;
+        }
+        
         .payment-options {
             grid-template-columns: 1fr;
         }
-
-        .col-md-6, .col-md-2 {
-            flex: 0 0 100%;
+        
+        .detail-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .detail-value {
+            text-align: left;
+        }
+        
+        .form-row {
+            flex-direction: column;
+        }
+        
+        .form-group {
+            min-width: 100%;
+        }
+    }
+    
+    /* Small devices (portrait tablets and large phones, 600px to 768px) */
+    @media only screen and (min-width: 601px) and (max-width: 768px) {
+        .booking-container {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .seat {
+            width: 30px;
+            height: 30px;
+            font-size: 0.75rem;
+        }
+        
+        .movie-poster {
+            max-height: 250px;
+        }
+        
+        .payment-options {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    /* Medium devices (landscape tablets, 769px to 992px) */
+    @media only screen and (min-width: 769px) and (max-width: 992px) {
+        .booking-container {
+            grid-template-columns: 1fr 1.5fr;
+            gap: 1.5rem;
+        }
+        
+        .seat {
+            width: 32px;
+            height: 32px;
+            font-size: 0.8rem;
+        }
+        
+        .seat-row {
+            gap: 0.3rem;
+        }
+    }
+    
+    /* Large devices (desktops, 993px to 1200px) */
+    @media only screen and (min-width: 993px) and (max-width: 1200px) {
+        .booking-container {
+            gap: 2rem;
+        }
+        
+        .seat {
+            width: 35px;
+            height: 35px;
+        }
+    }
+    
+    /* Extra large devices (large desktops, 1201px and up) */
+    @media only screen and (min-width: 1201px) {
+        .container {
+            padding: 0 30px;
+        }
+        
+        .seat:hover:not(.occupied) {
+            transform: scale(1.1);
+        }
+    }
+    
+    /* ===== PRINT STYLES ===== */
+    @media print {
+        .booking-actions,
+        .payment-method-section,
+        .seat-legend,
+        .seat {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
         }
     }
 
-    .form-group small {
-        color: #6C0808;
-        font-size: 0.8rem;
-        margin-top: 0.3rem;
-        display: block;
+    /* ===== SEATING PLAN ===== */
+    .seating-plan {
+        background: white;
+        border-radius: 8px;
+        padding: clamp(1rem, 3vw, 2rem);
+        margin-bottom: 2rem;
+        border: 1px solid #F57272;
+        box-shadow: 0 5px 15px rgba(135, 47, 47, 0.1);
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
-
-    .payment-option:has(input[type="radio"]:checked) {
+    
+    .screen {
+        background: linear-gradient(135deg, #380A0A, #6C0808);
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        margin-bottom: 2rem;
+        border-radius: 4px;
+        font-weight: bold;
+        font-family: "Poppins", sans-serif;
         border: 2px solid #FF6B6B;
-        background: rgba(255, 107, 107, 0.05);
+        width: 100%;
     }
+    
+    .seats-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        width: 100%;
+        min-width: min-content;
+    }
+    
+    .seat-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+    }
+    
+    /* Mobil nézetben a sorok több sorba törnek */
+    @media (max-width: 768px) {
+        .seat-row {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.4rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 1px solid #D49E9E;
+            padding-bottom: 0.8rem;
+        }
+        
+        /* Az utolsó sornál ne legyen alsó border */
+        .seat-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+        
+        /* Sorok közötti elválasztás */
+        .seats-grid {
+            gap: 0;
+        }
+    }
+    
+    .row-label {
+        width: 30px;
+        text-align: center;
+        font-weight: bold;
+        color: #380A0A;
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(0.8rem, 2vw, 1rem);
+        flex-shrink: 0;
+    }
+    
+    /* Mobil nézetben a sorjelző is középen legyen */
+    @media (max-width: 768px) {
+        .row-label {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+            background: rgba(210, 58, 58, 0.1);
+            padding: 0.2rem;
+            border-radius: 4px;
+        }
+    }
+    
+    .seat {
+        width: clamp(25px, 4vw, 35px);
+        height: clamp(25px, 4vw, 35px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #D49E9E;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: bold;
+        font-size: clamp(0.65rem, 2vw, 0.9rem);
+        color: #380A0A;
+        position: relative;
+        flex-shrink: 0;
+    }
+    
+    /* Mobil nézetben a helyek nagyobbak és jobban megnyomhatók */
+    @media (max-width: 768px) {
+        .seat {
+            width: 40px;
+            height: 40px;
+            font-size: 0.85rem;
+        }
+    }
+    
+    /* Nagyon kis képernyőn még nagyobb helyek */
+    @media (max-width: 480px) {
+        .seat {
+            width: 45px;
+            height: 45px;
+            font-size: 0.9rem;
+        }
+        
+        .seat-row {
+            gap: 0.5rem;
+        }
+    }
+    
+    .seat:hover:not(.occupied) {
+        background: #F57272;
+        transform: scale(1.1);
+        z-index: 1;
+    }
+    
+    .seat.selected {
+        background: linear-gradient(135deg, #FF6B6B, #D23A3A);
+        color: white;
+        box-shadow: 0 3px 8px rgba(210, 58, 58, 0.3);
+    }
+    
+    .seat.occupied {
+        background: #872F2F;
+        color: white;
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+    
+    /* ===== SEAT LEGEND ===== */
+    .seat-legend {
+        display: flex;
+        justify-content: center;
+        gap: clamp(1rem, 3vw, 2rem);
+        margin-top: 2rem;
+        flex-wrap: wrap;
+    }
+    
 ';
 ?>
 <!DOCTYPE html>
@@ -608,15 +939,10 @@ $additional_css = '
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         <?php 
-        if (file_exists('style.css')) {
-            include 'style.css';
-        }
+
         echo $additional_css; 
         ?>
-        
-        .main-content {
-            padding: 2rem 0;
-        }
+ 
     </style>
 </head>
 <body>
@@ -703,9 +1029,9 @@ $additional_css = '
                             Válassza ki a hely(ek)et
                         </h2>
                         
-                        <div class="max-seats-warning">
-                            <i class="fas fa-info-circle"></i> 
-                            Maximum 6 helyet választhat ki egyszerre. Kattintson a szabad helyekre a kiválasztáshoz.
+                        <div class="seat-limit-warning" id="seatLimitWarning" style="display: none; background: #EA3232; color: white; padding: 0.8rem; border-radius: 6px; margin-bottom: 1rem; border: 1px solid #FF6B6B; text-align: center; font-weight: 600;">
+                            <i class="fas fa-exclamation-triangle" style="margin-right: 0.5rem;"></i>
+                            Maximum 6 helyet választhat ki egyszerre!
                         </div>
                         
                         <div class="seating-plan">
@@ -853,7 +1179,7 @@ $additional_css = '
                             <input type="hidden" name="book_tickets" value="1">
 
                             <div class="booking-actions">
-                                <button type="button" onclick="startStripePayment()" class="btn btn-primary" id="paymentButton" disabled>
+                                <button type="button" onclick="startPayment()" class="btn btn-primary" id="paymentButton" disabled>
                                     <i class="fas fa-credit-card"></i> Fizetés bankkártyával
                                 </button>
                                 
@@ -879,7 +1205,7 @@ $additional_css = '
     
     <?php include 'footer.php'; ?>
     
-    <script>
+<script>
         // Kiválasztott helyek tömbje
         let selectedSeats = [];
         const MAX_SEATS = 6;
@@ -888,23 +1214,40 @@ $additional_css = '
         // Hely kiválasztása/eltávolítása
         function toggleSeat(seatNumber, element) {
             const index = selectedSeats.indexOf(seatNumber);
-                                    
+            const warningElement = document.getElementById('seatLimitWarning');
+
             if(index === -1) {
                 // Hely hozzáadása
                 if(selectedSeats.length >= MAX_SEATS) {
-                    alert(`Maximum ${MAX_SEATS} helyet választhat ki egyszerre!`);
+                    // Figyelmeztetés megjelenítése
+                    if (warningElement) {
+                        warningElement.style.display = 'block';
+                        // Automatikusan eltüntetjük 3 másodperc után
+                        setTimeout(() => {
+                            warningElement.style.display = 'none';
+                        }, 10000);
+                    }
                     return;
                 }
+
+                // Ha nincs elérve a limit, elrejtjük a figyelmeztetést (ha látszana)
+                if (warningElement) {
+                    warningElement.style.display = 'none';
+                }
+
                 selectedSeats.push(seatNumber);
                 element.classList.remove('available');
                 element.classList.add('selected');
             } else {
-                // Hely eltávolítása
+                // Hely eltávolítása - ilyenkor is elrejtjük a figyelmeztetést
+                if (warningElement) {
+                    warningElement.style.display = 'none';
+                }
                 selectedSeats.splice(index, 1);
                 element.classList.remove('selected');
                 element.classList.add('available');
             }
-                                    
+
             // Felület frissítése
             updateSelectedSeatsDisplay();
         }
@@ -936,6 +1279,7 @@ $additional_css = '
                                     
             // Payment gomb frissítése
             if (paymentButton) {
+                const selectedPayment = document.querySelector('input[name="payment_method"]:checked')?.value;
                 if(selectedSeats.length === 0) {
                     paymentButton.disabled = true;
                     paymentButton.style.opacity = '0.5';
@@ -945,8 +1289,15 @@ $additional_css = '
                     paymentButton.disabled = false;
                     paymentButton.style.opacity = '1';
                     paymentButton.style.cursor = 'pointer';
-                    paymentButton.innerHTML = '<i class="fas fa-credit-card"></i> Fizetés: ' + 
-                        totalPrice.toLocaleString('hu-HU') + ' Ft';
+                    
+                    // Fizetési mód alapján gomb szövegének módosítása
+                    if (selectedPayment === 'cash') {
+                        paymentButton.innerHTML = '<i class="fas fa-money-bill-wave"></i> Foglalás készpénzzel: ' + 
+                            totalPrice.toLocaleString('hu-HU') + ' Ft';
+                    } else {
+                        paymentButton.innerHTML = '<i class="fas fa-credit-card"></i> Fizetés bankkártyával: ' + 
+                            totalPrice.toLocaleString('hu-HU') + ' Ft';
+                    }
                 }
             }
                                     
@@ -965,6 +1316,13 @@ $additional_css = '
                     selectedSeats.splice(index, 1);
                     seatElement.classList.remove('selected');
                     seatElement.classList.add('available');
+
+                    // Figyelmeztetés elrejtése
+                    const warningElement = document.getElementById('seatLimitWarning');
+                    if (warningElement) {
+                        warningElement.style.display = 'none';
+                    }
+
                     updateSelectedSeatsDisplay();
                 }
             }
@@ -1001,7 +1359,7 @@ $additional_css = '
             const szepDetails = document.getElementById('szepDetails');
             const transferInfo = document.getElementById('transferInfo');
             const selectedPaymentInput = document.getElementById('selectedPaymentMethod');
-            const bookingForm = document.getElementById('bookingForm');
+            const paymentButton = document.getElementById('paymentButton');
 
             // SZÉP kártya mezők referenciái
             const szepSubaccount = document.getElementById('szep_subaccount');
@@ -1035,7 +1393,13 @@ $additional_css = '
                             case 'transfer':
                                 if (transferInfo) transferInfo.style.display = 'block';
                                 break;
+                            case 'cash':
+                                // Készpénz esetén nem kell semmit megjeleníteni
+                                break;
                         }
+                        
+                        // Gomb szövegének frissítése
+                        updateSelectedSeatsDisplay();
                     });
                 });
             }
@@ -1053,18 +1417,48 @@ $additional_css = '
             }
         });
 
-        function startStripePayment() {
+        function startPayment() {
             if(selectedSeats.length === 0) {
                 alert('Kérem válasszon ki legalább egy helyet!');
                 return;
             }
 
             const selectedPayment = document.querySelector('input[name="payment_method"]:checked')?.value;
-            if (selectedPayment !== 'card') {
-                alert('Kérem válassza a bankkártyás fizetési módot!');
-                return;
+            
+            if (selectedPayment === 'card') {
+                startStripePayment();
+            } else if (selectedPayment === 'cash') {
+                submitCashBooking();
+            } else {
+                alert('A választott fizetési mód jelenleg nem elérhető. Kérjük válasszon bankkártyát vagy készpénzt!');
             }
+        }
         
+        function submitCashBooking() {
+            // Űrlap adatok összegyűjtése
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'cash_booking.php';
+            
+            const fields = {
+                'screening_id': '<?php echo $screening_id; ?>',
+                'selected_seats': JSON.stringify(selectedSeats),
+                'book_tickets': '1'
+            };
+            
+            for(const [name, value] of Object.entries(fields)) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = value;
+                form.appendChild(input);
+            }
+            
+            document.body.appendChild(form);
+            form.submit();
+        }
+        
+        function startStripePayment() {
             const totalPriceFt = selectedSeats.length * TICKET_PRICE;
             if (totalPriceFt < 175) {
                 alert('A fizetendő összeg minimum 175 Ft kell legyen! Válasszon több jegyet!');
