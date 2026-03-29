@@ -164,8 +164,8 @@ function generateWeeklyScreenings($pdo) {
     }
 }
 
-define('STRIPE_PUBLISHABLE_KEY', 'pk_test_51T04xvK3NyMFNVw4kEbmqeSWW6D6Myc0AcH7ewiG2ELmXc5J8cmZ3bGYDlHLzjG0jk7naRME7xA4z3FdLeCkAMQp009SY7s0yh'); 
-define('STRIPE_SECRET_KEY', 'sk_test_51T04xvK3NyMFNVw4AsTEkzHueHpGMkEsF7asB70CjV2YkLp9HQq1EpnOURAe3reQ9q72cg2LlkW06ZAI1rALrzKm00FpVpW2W2');  
+define('STRIPE_PUBLISHABLE_KEY', ''); 
+define('STRIPE_SECRET_KEY', '');  
 define('STRIPE_WEBHOOK_SECRET', 'whsec_...'); 
 
 // Fizetési státuszok
